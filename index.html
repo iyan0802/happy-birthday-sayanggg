@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Misi Cinta: Perjalanan ke Hati</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: rgba(223, 44, 181, 0.831);
+            color: #333;
+            text-align: center;
+            padding: 20px;
+        }
+        .game-container {
+            max-width: 600px;
+            margin: auto;
+            padding: 20px;
+            background-color: #8fccdd;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        .question {
+            font-size: 1.2em;
+            margin-bottom: 20px;
+        }
+        .choices button {
+            background-color: #ff6666;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            margin: 5px;
+            cursor: pointer;
+            font-size: 1em;
+        }
+        .choices button:hover {
+            background-color: #ff4d4d;
+        }
+        .result {
+            font-size: 1.2em;
+            margin-top: 20px;
+        }
+        .next-btn, .message-btn, .back-btn {
+            margin-top: 20px;
+            padding: 10px 20px;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1em;
+        }
+        .next-btn {
+            background-color: #08ab3f;
+        }
+        .next-btn:hover {
+            background-color: #070807;
+        }
+        .message-btn {
+            background-color: #0066cc;
+        }
+        .message-btn:hover {
+            background-color: #004d99;
+        }
+        .back-btn {
+            background-color: #cc3300;
+        }
+        .back-btn:hover {
+            background-color: #b32a00;
+        }
+    </style>
+</head>
+<body>
+    <div class="game-container">
+        <h1>happy birthday sayangg🎂🎉🎊</h1>
+        <div id="game">
+            <p class="question" id="question"></p>
+            <div class="choices" id="choices"></div>
+            <p class="result" id="result"></p>
+            <button class="next-btn" id="next-btn" onclick="nextQuestion()">Lanjut</button>
+            <button class="message-btn" id="message-btn" onclick="showMessage()" style="display: none;">Lihat Pesan Romantis</button>
+        </div>
+    </div>
+    <script>
+        // Daftar pertanyaan
+        const questions = [
+            {
+                question: "kapan bidadari tercantik (aidha) lahir",
+                choices: ["17 Juli 2007", "14 Februari 2009", "11 desember 2008"],
+                answer: "11 desember 2008",
+                message: "ya tanggal 11 desember tahun 2008 dikota banjarmasin, yang bertepatan dengan hari kamis, telah lahir kedunia anak yang dimasa depan akan menjadi anak yang sangat pintar mandiri kuat dan kecantikanya melebihikeindahan bintang di langit malam😚😚😚😚"
+            },
+            {
+                question: "apa cita cita aidha dimasa depan ",
+                choices: ["dokter gigi", "tentara", "dokter gizi"],
+                answer: "dokter gizi",
+                message: "Wahh cita cita yang sangat mulia yah sayang, moga bias terkabul yaa sayang, aku bakal selalu ada di samping ayang, bakal selau ada buat saying, saying harus buktikan kepada dunia saying bias, saying hebat, dan ayang harus selalu berdoa agar sega yang ayang harpkan terkabl yaa sayangg, doa terbaikku selalu ada bersama sayang🫂🫂🫂🫂🫂🫂"
+            },
+            {
+                question: "dimana tempat impian kita untuk menikmati hari tua",
+                choices: ["Bali", "Paris", "switzerland"],
+                answer: "switzerland",
+                message: "hehheh impian kita adalah hidup tenang di masa tua yah sayangg, moga walapun berat kita harus berusaha buat wujudinya ya sayangg, wjudin bersama sama, harus saling menguatkan, sayang harus tetep membatuku dengan semua hal sepesil yang saayang kasih ke akujuga dengan semua doa doa sayang, aku bakal berusaha semaksimalmungkin agar sayang bisa selalu bahagia dan semua impian kita, mau sekecil apapun itu aku bakal berusaha agar itu terwujud sayang 🫂🫂🫂🫂🫂"
+            },
+            {
+                question: "apa makanan kesukaan sayang",
+                choices: ["seblak", " kacang", "kangkung"],
+                answer: "seblak",
+                message: "ayang mah suka banget ama seblak wkwwwk, bisa 1 minggu 2 kali deh,tapi gapapa sayangg aku suka karena ayang jadi lebih suka mam dan ga akan ampe sakit gara gara ga mam, tapi jangan terlaluu banyak dan jangan yang terlalu pedas yaa sayangg, biar sayang selalu sehat, apapun🫂🫂🫂🫂🫂🤍🤍🤍😚 "
+            },
+            {
+                question: "siapa orang yang paling bahagia punya pacar kaya sayang",
+                choices: ["iyan", "iyan", "iyan"],
+                answer: "iyan",
+                message: "hheheheh aku bahagia banget dapet pacar kaya sayang yang selalu semangatin aku, selalau da buataku,selau hibur aku kalo aku sedih, aku ga nyangka kita bisa bertemu sayang, bisa jalanin hubungan ini, dan makin hari makin serus aja nih hubungan kita,udah sampai memkirkan masa depan yah sayang wkwkwkwkwk, moha hadirnya aku dan terjalinya hubungan ini bisa jadi kado terbaik di hari ulang tahun sayang🤍🤍🤍🫂🫂🫂🫂🫂🫂🫂🫂😚😚😚"
+            },
+            {
+                question: "apapakah sayang mau membaca ucapan dari iyan",
+                choices: ["engga mau sayang ", "iya sayangg aku mau", ],
+                answer: "iya sayangg aku mau",
+                message: " hari ini tanggal 11 Desember 2024 yang merupakan hari paling sepesial bagi hidup pacarku ini, dimana 16 tahun lalu ada seorang gadis cantik yang telah lahir, di kota banjarmasin dia lahir dengan belaian kasih sayang telah di besarkan dengan penuh rasa cinta oleh ayah dan ibunya, gadis yang saat besar telah mengubah hidup seorang laki laki yang awalnya tidak memiliki jati diri, gadis yang telah membuat tawa bahagia bagi siapa pun yang dia temui🫂🫂🫂🫂😊😊😊, kecantikannya bagaikan gugusan bintang di langit malam, senyumanyaaa mengalahkan keindahan galaksi di angkasa lepas, gadis tangguh yang tak kenal lelah tak kenal putus asa, dia lah kesayangkuuuuu yang saat ini sudah remaja dan menginjak dewasa🤍🤍🤍🤍🤍, aku tak tau harus memberikan apa di hari yang sepesial ini sayang, yang aku bisa hanyalah memberikan suatu yang sederhana ini, yang semoga bisa membuat cantiku merasa bahagia dan merasa bahwa aku benar benar tulus mencintainya🫂🫂🤍🤍🤍🫂🫂🫂, semoga di hari yang bahagia ini, bisa membuat kesayangkuuuuu terus bahagia, bisa membuat kesayangkuuuuu merasa bahwa masih banyak yang peduli kepadanya walaupun kadang tidak di tunjukan. dan janganlah sayang merasa sendiri bagaikan bintang mati yang tidak memiliki hati, ada aku sayang yang selalu ada di hati sayang 🫂🫂🫂🫂🫂, ada aku yang akan selalu menemani sayang dengan setulus hati sepenuh hati, aku akan selalu menemanimu hingga akhir hayat nanti, walaupun aku tak tau bagaimana nasibku nanti, tapi aku akan selalu berusaha membuatku selalu bahagia sepanjang hari🫂🫂🫂🫂.jadilah anak yang selalu bahagia, yang selalu buat orang di sekeliling sayang bahagia yaa sayang, jangan pantang menyerah yaa syangg😚😚😚😚, jika 1 dunia tidak berpihak kepada sayang, tenang sayang ada aku yang akan selalu ada disisi ayang, selalu ada di hati sayang🤍🤍🤍🤍. doa doaku akan selalu ada untukmu sayang, bakal selalu memberikan yang terbaik untukmu cinta, aku tak mau orang lain melihat ayang seperti apa aku melihatmu ayang, karena kalo mereka melihat ayang seperti apa yang aku lihat, maka seluruh dunia bakal jatuh cinta kepadamu sayang🫂🫂🫂🫂🫂. doa singkat dariku iyalah semoga sayang kedepannya bisa selalu bahagia dan selalu menjadi yang terbaik buat siapapun yang sayang sayangi, sayang bisa menjadi anak yang sukses bisa mewujudkan semua mimpi mimpi sayang, aku yakin sayang bisa mengubah dunia karena sayang telah mengubah duniaku menjadi lebih baik ,semoga ayang menjadi anak yang berbakti kepada ayah ibu sayang, bisa selalu berusaha yang terbaik buat masa depan sayang. aku Alfan Ardiyansah akan selalu menemanimu hingga waktu terhenti, hingga tiada hari esok, semoga selalu bahagia yaa kesayangkuuuuu🫂🫂🫂🤍🤍🤍🤍. sayang harus tetap dan selalu tersenyum yaa sayangku hingga keindahan galaksi cemburu melihat senyummu yang begitu indahnya tiada tandingnya. aku selalu ada bersamamu selamanya sayanggg hingga akhir hayat nanti. aku pernah mendengar suatu kalimat yang itu juga ada 1 juta orang mencintai sayang, maka  akulah satunya, jika ada 1 orang yang mencintai sayang, maka itu adalah aku, dan jika tidak ada yang mencintai sayang🤍🤍🤍🤍🤍, maka aku telah tiada. jadi aku bakal selalu ama sayang selamanya ga akan pernah ninggalin sayang.🫂🫂🫂🫂🫂🫂🫂 selamat ulang tahun yang ke 16 yaa sayang, semoga lebih banyak kebaikan kebaikan yang menyertai sayang aamin 🫂🫂🫂🫂🫂🫂🫂🫂, aku mau ini jadi sepesial buat sayang karena sayang telah memberikanku momen ulang tahun yang ga akan pernah aku lupain, dimana aku di ucapkan di saat aku bangun tidur, itu merupakan salah satu momen terindah dalam hidupku sayangg, makasih yaa sayangggg.  maka trimalah hadiah sederhana dariku ini sayang semoga sayang aku buat dengan hati, dan semoga sayang meneriamanya setulus hati. selalu ingat kata kataku yaa sayangg, buatlah galaksi dan gugsan bintang cemburu dengan keindahan senyuman sayang, selalu bahagia yaa sayanggg'🤍🤍🤍🤍🤍🤍🤍🫂🫂🫂🫂🫂 , aku sayang ayang selamanya 🫂🫂🫂🫂🫂🫂🫂🫂🫂🫂🫂🫂🫂🫂🫂🫂                        dari kesayangamu                        alfan ardiyansah(iyan) "
+            },
+            
+            
+        
+            
+            
+        ];
+
+        let currentQuestionIndex = 0;
+
+        function loadQuestion() {
+            const questionEl = document.getElementById("question");
+            const choicesEl = document.getElementById("choices");
+            const resultEl = document.getElementById("result");
+            const nextBtn = document.getElementById("next-btn");
+
+            // Reset hasil
+            resultEl.textContent = "";
+            nextBtn.style.display = "none";
+
+            // Load pertanyaan
+            const currentQuestion = questions[currentQuestionIndex];
+            questionEl.textContent = currentQuestion.question;
+            choicesEl.innerHTML = "";
+
+            // Tambahkan pilihan jawaban
+            currentQuestion.choices.forEach((choice) => {
+                const button = document.createElement("button");
+                button.textContent = choice;
+                button.onclick = () => checkAnswer(choice);
+                choicesEl.appendChild(button);
+            });
+        }
+
+        function checkAnswer(choice) {
+            const resultEl = document.getElementById("result");
+            const nextBtn = document.getElementById("next-btn");
+            const currentQuestion = questions[currentQuestionIndex];
+
+            if (choice === currentQuestion.answer) {
+                resultEl.textContent = currentQuestion.message;
+                resultEl.style.color = "green";
+            } else {
+                resultEl.textContent = "Oops,ayo coba lagi sayang biar dapet sesuatu dari iyan";
+                resultEl.style.color = "red";
+            }
+
+            nextBtn.style.display = "block";
+        }
+
+        function nextQuestion() {
+            currentQuestionIndex++;
+            if (currentQuestionIndex < questions.length) {
+                loadQuestion();
+            } else {
+                const nextBtn = document.getElementById("next-btn");
+                const messageBtn = document.getElementById("message-btn");
+                const gameEl = document.getElementById("game");
+
+                gameEl.innerHTML = `
+                    <h2>Selamat! ayang berhasil menyelesaikan misi ini.</h2>
+                    <p>semoga semua semua doa sayang terkabul yaa sayanggg keep smile baby:) </p>
+                `;
+                nextBtn.style.display = "none";
+                messageBtn.style.display = "block";
+            }
+        }
+
+        function showMessage() {
+            const gameEl = document.getElementById("game");
+            gameEl.innerHTML = `
+                <h2>Pesan Romantis</h2>
+                <p>Sayangku, selamat ulang tahun! Terima kasih telah menjadi bagian paling indah dalam hidupku. Aku mencintaimu lebih dari kata-kata bisa ungkapkan. Kamu adalah alasan aku tersenyum setiap hari. Mari terus bersama selamanya, ya?</p>
+                <button class="back-btn" onclick="backToStart()">Kembali ke Awal</button>
+                <button class="message-btn" onclick="showHiddenGift()">Lihat Hadiah Tersembunyi</button>
+            `;
+        }
+
+        function backToStart() {
+            location.reload();
+        }
+
+        function showHiddenGift() {
+            const gameEl = document.getElementById("game");
+            gameEl.innerHTML = `
+                <h2>Hadiah Tersembunyi</h2>
+                <p>🎁 Kejutan spesial menunggumu di tempat biasa kita bertemu! 🎉</p>
+                <button class="back-btn" onclick="backToStart()">Mulai Lagi</button>
+            `;
+        }
+
+        // Load pertanyaan pertama
+        loadQuestion();
+    </script>
+</body>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Button with Message</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin-top: 50px;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            background-color: #081157;
+            color: rgb(246, 246, 246);
+            border: none;
+            border-radius: 5px;
+        }
+        button:hover {
+            background-color: #35305e;
+        }
+    </style>
+</head>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>harapn sayang</title>
+    <style>
+        .btn {
+            display: inline-block;
+            padding: 10px 10px;
+            font-size: 10px;
+            color: #fff;
+            background-color: #243857;
+            border: none;
+            border-radius: 5px;
+            text-decoration: none;
+            text-align: left;
+            cursor: pointer;
+        }
+
+        .btn:hover {
+            background-color: #d82969;
+        }
+    </style>
+</head>
+<body>
+    <a href="https://wa.link/woi7lq" class="btn" target="_blank">ayang kirim doa harapan dan keinginana ayang di sini yaa sayangg</a>
+</body>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    
+    <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tombol Kado dengan Motif Bunga</title>
+    <style>
+        
+
+        .gift-button-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            height: 100%;
+        }
+
+        .gift-button {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(45deg, #f48fb1, #64b5f6, #ffd54f, #81c784);
+            background-size: 300% 300%;
+            border-radius: 10%;
+            border: 2px solid #444;
+            position: relative;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+            animation: colorShift 3s infinite linear;
+            cursor: pointer;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .gift-button:hover {
+            transform: scale(1.1);
+            transition: transform 0.2s;
+        }
+
+        .ribbon-horizontal, .ribbon-vertical {
+            position: absolute;
+            background: #f804b7;
+        }
+
+        .ribbon-horizontal {
+            width: 100%;
+            height: 10px;
+            top: 35px;
+        }
+
+        .ribbon-vertical {
+            width: 10px;
+            height: 100%;
+            left: 35px;
+        }
+
+        .gift-text {
+            position: absolute;
+            color: rgb(2, 2, 2);
+            font-weight: bold;
+            font-size: 10px;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+            z-index: 2;
+        }
+
+        @keyframes colorShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+    </style>
+</head>
+<body>
+    <div class="gift-button-container">
+        <a href="https://drive.google.com/file/d/1GuFqNqtnTeYUP3ix1-uQJTgAHWWw9vxo/view?usp=drivesdk" target="_blank" class="gift-button">
+            <div class="ribbon-horizontal"></div>
+            <div class="ribbon-vertical"></div>
+            <span class="gift-text"><span>
+                <head>
+                    <meta charset="UTF-8">
+                    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                    <title>Tombol Pesan Suara</title>
+                    <style>
+                      .voice-button {
+                        display: inline-flex;
+                        align-items: center;
+                        justify-content: center;
+                        background-color: #5d615d;
+                        color: white;
+                        border: none;
+                        border-radius: 20px;
+                        padding: 10px 20px;
+                        font-size: 16px;
+                        cursor: pointer;
+                        text-decoration: none;
+                        transition: background-color 0.3s ease;
+                      }
+                      .voice-button:hover {
+                        background-color: #796673;
+                      }
+                      .voice-icon {
+                        margin-right: 8px;
+                      }
+                    </style>
+                  </head>
+                  <body>
+                    <a href="https://drive.google.com/file/d/1IbKpmT1uiLYd3H9GXaONta-0VxNK06s8/view?usp=drivesdk" target="_blank" class="voice-button">
+                      <span class="voice-icon">▶️</span>
+                      pesan dari iyan</a>
+                  </body>
+                  </html>
+</body>
+</html>
